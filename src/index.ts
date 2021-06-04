@@ -4,3 +4,5 @@ export const sum = (a: number, b: number) => {
   }
   return a + b;
 };
+
+export { Server } from './server';
