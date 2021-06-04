@@ -1,8 +1,8 @@
-export const sum = (a: number, b: number) => {
-  if ('development' === process.env.NODE_ENV) {
-    console.log('boop');
-  }
-  return a + b;
-};
-
+export * as auth from './auth';
+export * as database from './database';
+export * as exceptions from './exceptions';
+export * as helpers from './helpers';
+export * as middlewares from './middlewares';
+export * as repositories from './repositories';
+export * as seeder from './seeder';
 export { Server } from './server';
