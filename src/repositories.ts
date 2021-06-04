@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { HttpRequestError } from './exceptions';
 
-export default class BaseRepository {
+export class BaseRepository {
   model!: any;
   constructor(model: any) {
     this.model = model;
@@ -24,10 +24,7 @@ export default class BaseRepository {
       }
     }
 
-    return this.model
-      .find(args)
-      .skip(skip)
-      .limit(limit);
+    return this.model.find(args).skip(skip).limit(limit);
   }
 
   get(id: string) {
@@ -47,7 +44,7 @@ export default class BaseRepository {
       return new HttpRequestError(400, `Invalid id ${id}`);
     const item = await this.model.findById(id);
     if (!item) return new HttpRequestError(404, `Item not found with id ${id}`);
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       item[key] = data[key];
     });
     return item.save();
