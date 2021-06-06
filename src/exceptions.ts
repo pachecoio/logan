@@ -8,6 +8,7 @@ const mongoErrorMap: any = {
 export class HttpRequestError {
   status: number;
   message: string;
+  stacktrace: any;
 
   constructor(status: number = 500, message: string = '', error?: any) {
     this.status = status;
@@ -17,6 +18,7 @@ export class HttpRequestError {
   }
 
   setError(error: any) {
+    this.stacktrace = error;
     if (error.name === 'MongoError') {
       const errorMap = mongoErrorMap[error.code];
       if (errorMap) {
