@@ -34,7 +34,7 @@ export class Connection {
     await this.seeder(uri);
   }
 
-  private async close() {
+  public async close() {
     await mongoose.connection.close();
   }
 }
