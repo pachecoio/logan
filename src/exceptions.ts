@@ -9,7 +9,7 @@ export class HttpRequestError {
   status: number;
   message: string;
 
-  constructor(status: number = 500, message: string = '', error?: Error) {
+  constructor(status: number = 500, message: string = '', error?: any) {
     this.status = status;
     this.message = message;
 
