@@ -15,6 +15,7 @@ export class MongoDBOptions {
 export class Connection {
   protected seeder: any;
   protected options: MongoDBOptions;
+  uri: string;
   constructor(
     uri: any = MONGODB_URI,
     options = new MongoDBOptions(),
@@ -22,12 +23,12 @@ export class Connection {
   ) {
     this.options = options;
     this.seeder = seeder;
-    this.connect(uri, options);
+    this.uri = uri;
   }
 
-  private async connect(uri: string, options: MongoDBOptions = this.options) {
-    if (this.seeder) await this.seed(uri);
-    await mongoose.connect(uri, options);
+  public async connect(options: MongoDBOptions = this.options) {
+    if (this.seeder) await this.seed(this.uri);
+    await mongoose.connect(this.uri, options);
   }
 
   private async seed(uri: string) {

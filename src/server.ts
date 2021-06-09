@@ -1,19 +1,19 @@
-import express, { Express, Request, Response } from "express";
-import * as http from "http";
+import express, { Express, Request, Response } from 'express';
+import * as http from 'http';
 
-import session from "express-session";
-import fileUpload from "express-fileupload";
-import bodyParser from "body-parser";
-import { HttpRequestError } from "./exceptions";
+import session from 'express-session';
+import fileUpload from 'express-fileupload';
+import bodyParser from 'body-parser';
+import { HttpRequestError } from './exceptions';
 
-import { Connection } from "./database";
+import { Connection } from './database';
 
 export enum METHOD {
-  GET = "get",
-  POST = "post",
-  PUT = "put",
-  PATCH = "patch",
-  DELETE = "delete",
+  GET = 'get',
+  POST = 'post',
+  PUT = 'put',
+  PATCH = 'patch',
+  DELETE = 'delete',
 }
 
 interface RouteConfigProps {
@@ -42,13 +42,14 @@ export class Server {
     this._app = express();
     this._app.set('port', process.env.PORT || 5000);
     this.configureMiddleware();
+    this.initDatabase(connection);
   }
 
   private configureMiddleware() {
     this._app.use(bodyParser.json());
     this._app.use(bodyParser.urlencoded({ extended: true }));
     this._app.use(fileUpload());
-    this._app.set("trust proxy", 1);
+    this._app.set('trust proxy', 1);
     this._app.use(
       session({
         // @ts-ignore
@@ -62,17 +63,28 @@ export class Server {
     );
   }
 
+  private initDatabase(connection: Connection) {
+    connection
+      .connect()
+      .then(() => {
+        console.info('MongoDB connection established');
+      })
+      .catch(() => {
+        console.error('MongoDB connection failed');
+      });
+  }
+
   public start() {
-    this._server = this._app.listen(this._app.get("port"), () => {
-      console.log("🚀 Server is running on port " + this._app.get("port"));
+    this._server = this._app.listen(this._app.get('port'), () => {
+      console.log('🚀 Server is running on port ' + this._app.get('port'));
     });
   }
 
   request = ({
-               method,
-               path,
-               status = 200,
-             }: RouteConfigProps): MethodDecorator => {
+    method,
+    path,
+    status = 200,
+  }: RouteConfigProps): MethodDecorator => {
     return (
       _target: object,
       _propertyKey: string | symbol,
@@ -82,13 +94,14 @@ export class Server {
       const response = async (req: Request, res: Response) => {
         try {
           const original = await descriptor.value(req, res);
-          const statusCode = original && original.status ? original.status : status;
+          const statusCode =
+            original && original.status ? original.status : status;
           res.status(statusCode).send(original);
         } catch (error) {
-          console.log("error found", error);
+          console.log('error found', error);
           const responseError = new HttpRequestError(
             500,
-            "Server Error",
+            'Server Error',
             error
           );
           return res.status(responseError.status).send(responseError);
