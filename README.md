@@ -1,4 +1,54 @@
-# TSDX User Guide
+# Logan API
+
+Logan API is a minimal rest API library for projects in Express, Typescript and Mongoose.
+
+## Installation
+
+Use the package manager [npm](https://www.npmjs.com/get-npm) to install Logan.
+
+```bash
+npm install --save logan
+```
+or
+```
+yarn add logan
+```
+
+## Usage
+
+```typescript
+import { Server } from '@pachecoio/logan'
+
+const server = new Server();
+
+@server.get('/')
+function hello(req: Request) {
+  return 'hello';
+}
+
+server.start();
+
+```
+
+## Database connection
+
+To connect with a Mongo Database, it is as simple as having a running instance of MongoDB ready and updating the url under the `.env` file
+
+```
+# .env
+MONGODB_URI=<YOUR MONGODB URI>
+...
+```
+
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
+
+<!-- # TSDX User Guide
 
 Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
 
@@ -101,4 +151,4 @@ For vanilla CSS, you can include it at the root directory and add it to the `fil
 ## Publishing to NPM
 
 We recommend using [np](https://github.com/sindresorhus/np).
-"# logan" 
+"# logan"  -->
