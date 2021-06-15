@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@thisk8brd/logan",
+  "name": "logan-api",
   "author": "Thiago Pacheco",
   "module": "dist/logan.esm.js",
   "size-limit": [
