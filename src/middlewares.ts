@@ -3,13 +3,13 @@ import { HttpRequestError } from './exceptions';
 
 export const auth = {
   require(): MethodDecorator {
-    return function(
+    return function (
       _target: Object,
       _propertyKey: string | symbol,
       descriptor: PropertyDescriptor
     ) {
       const original = descriptor.value;
-      descriptor.value = async function(...args: any[]) {
+      descriptor.value = async function (...args: any[]) {
         const [request, response] = args;
         try {
           const { valid, ...verified } = await verify(request.headers);

@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
 export async function encrypt(password: string) {
   return await bcrypt.hash(password, Number(process.env.SALT));
